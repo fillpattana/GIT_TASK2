@@ -6,7 +6,7 @@ from PySide6.QtGui import *
 
 class Simple_freehand_drawing(QMainWindow):
     def __init__(self):
-        QWidget.__init__(self, None)
+        super().__init__()
         self.setWindowTitle("Simple Freehand Drawing")
         self.window = QWidget()
         self.layout = QVBoxLayout()
