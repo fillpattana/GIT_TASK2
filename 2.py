@@ -2,57 +2,7 @@ import sys
 from PySide6.QtCore import *
 from PySide6.QtWidgets import *
 from PySide6.QtGui import *
-
-from PySide6.QtCore import (QCoreApplication, QDate, QDateTime, QLocale,
-    QMetaObject, QObject, QPoint, QRect,
-    QSize, QTime, QUrl, Qt)
-from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
-    QFont, QFontDatabase, QGradient, QIcon,
-    QImage, QKeySequence, QLinearGradient, QPainter,
-    QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QApplication, QFrame, QLabel, QPushButton,
-    QSizePolicy, QWidget)
-
-class Ui_Form(object):
-    def setupUi(self, Form):
-        if not Form.objectName():
-            Form.setObjectName(u"Form")
-        Form.resize(400, 300)
-        self.frame = QFrame(Form)
-        self.frame.setObjectName(u"frame")
-        self.frame.setGeometry(QRect(80, 30, 221, 221))
-        self.frame.setFrameShape(QFrame.StyledPanel)
-        self.frame.setFrameShadow(QFrame.Raised)
-    
-        
-        
-        self.label = QLabel(self.frame)
-        self.label.setObjectName(u"label")
-        self.label.setGeometry(QRect(0, 0, 221, 171))
-        
-        canvas = QPixmap(400, 300)
-        canvas.fill(QColor('white'))
-        self.label.setPixmap(canvas)
-        
-        self.pushButton = QPushButton(self.frame)
-        self.pushButton.setObjectName(u"pushButton")
-        self.pushButton.setGeometry(QRect(10, 190, 211, 32))
-
-        self.retranslateUi(Form)
-
-        QMetaObject.connectSlotsByName(Form)
-    # setupUi
-
-    def retranslateUi(self, Form):
-        Form.setWindowTitle(QCoreApplication.translate("Form", u"Form", None))
-        self.pushButton.setText(QCoreApplication.translate("Form", u"Clear", None))
-        
-    def mouseMoveEvent(self, e):
-        canvas = self.label.pixmap()
-        painter = QPainter(canvas)
-        painter.drawPoint(e.x(), e.y())
-        painter.end()
-        self.label.setPixmap(canvas)
+from sjjs import Ui_Form
         
 class Calculator(QWidget):
     def __init__(self):
@@ -61,6 +11,25 @@ class Calculator(QWidget):
         
         self.ui = Ui_Form()
         self.ui.setupUi(self)
+        
+        canvas = QPixmap(400, 300)
+        canvas.fill(QColor('white'))
+        
+        self.ui.label.setPixmap(canvas)
+        self.ui.pushButton.clicked.connect(self.go)
+    
+    def mouseMoveEvent(self, e):
+        canvas = self.ui.label.pixmap()
+        painter = QPainter(canvas)
+        painter.drawPoint(e.x(), e.y())
+        painter.end()
+        self.ui.label.setPixmap(canvas)
+        
+    def go(self):
+        canvas = QPixmap(400, 300)
+        canvas.fill(QColor('white'))
+        self.ui.label.setPixmap(canvas)
+        
         
         
 class Simple_freehand_drawing(QMainWindow):
@@ -89,10 +58,6 @@ class Simple_freehand_drawing(QMainWindow):
         self.vbox.addWidget(self.rec)
         self.vbox.addWidget(self.clear)
         self.win.setLayout(self.vbox)
-        
-        
-        
-        
 
     def mouseMoveEvent(self, e):
         canvas = self.rec.pixmap()
